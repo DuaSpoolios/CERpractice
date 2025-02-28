@@ -1,60 +1,102 @@
 import streamlit as st
 
-# Set up the page
+# Set up page configuration
 st.set_page_config(page_title="Hispanic Career & Education Hub", page_icon="🌍", layout="wide")
 
-# Sidebar Navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "About Us", "Job & Career Help", "Education Resources", "Legal & Immigration Help", "Profile"])
+# Custom CSS for styling
+st.markdown("""
+    <style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .main {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .stButton>button {
+        width: 100%;
+        border-radius: 10px;
+        background-color: #0073e6;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .stButton>button:hover {
+        background-color: #005bb5;
+    }
+    .header {
+        color: #0073e6;
+        font-weight: bold;
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # Language selection
-lang = st.sidebar.radio("Choose Language / Elige el idioma", ["English", "Español"])
+lang = st.radio("🌐 Choose Language / Elige el idioma", ["English", "Español"])
 
-# Home Page
-if page == "Home":
-    st.title("🌍 Hispanic Career & Education Hub")
-    st.write("Welcome! This website provides free resources for jobs, education, and legal support for Hispanic immigrants in Atlanta.")
-    st.image("https://source.unsplash.com/1600x500/?community", use_column_width=True)
+# Content dictionary
+content = {
+    "English": {
+        "title": "🌍 Welcome to the Hispanic Career & Education Hub",
+        "intro": "Find free resources for jobs, education, and legal support in Atlanta.",
+        "job_title": "🔹 Job & Career Help",
+        "edu_title": "📚 Education Resources",
+        "legal_title": "⚖️ Legal & Immigration Help",
+        "button_text": "Visit Resource",
+    },
+    "Español": {
+        "title": "🌍 Bienvenido al Centro de Carreras y Educación Hispano",
+        "intro": "Encuentra recursos gratuitos para empleos, educación y apoyo legal en Atlanta.",
+        "job_title": "🔹 Ayuda para el empleo y la carrera",
+        "edu_title": "📚 Recursos educativos",
+        "legal_title": "⚖️ Ayuda legal e inmigración",
+        "button_text": "Visitar Recurso",
+    }
+}
 
-# About Us Page
-elif page == "About Us":
-    st.title("📢 About Us")
-    st.write("Our mission is to support Hispanic immigrants in Atlanta by providing job training, education, and legal resources.")
-    st.subheader("Our Mission")
-    st.write("To empower individuals with the tools needed for success in the workforce and education.")
+# Display main content inside a styled container
+st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# Job & Career Help Page
-elif page == "Job & Career Help":
-    st.title("🔹 Job & Career Help")
-    st.markdown("""
-    - [Goodwill Job Training](https://www.goodwillng.org/job-training)
-    - [Georgia WorkSource](https://www.worksourceatlanta.org/)
-    - [Resume Templates (Canva)](https://www.canva.com/resumes/templates/)
-    - [Latino Jobs Network](https://latinojobsnetwork.com/)
-    """)
+st.title(content[lang]["title"])
+st.write(content[lang]["intro"])
 
-# Education Resources Page
-elif page == "Education Resources":
-    st.title("📚 Education Resources")
-    st.markdown("""
-    - [Atlanta Technical College ESL](https://www.atlantatech.edu/)
-    - [GED Classes in Atlanta](https://www.ged.com/)
-    - [Free English Classes in GA](https://www.esl.com/resources/georgia/)
-    """)
+# Organizing content into three columns
+col1, col2, col3 = st.columns(3)
 
-# Legal & Immigration Help Page
-elif page == "Legal & Immigration Help":
-    st.title("⚖️ Legal & Immigration Help")
-    st.markdown("""
-    - [Georgia Latino Alliance for Human Rights](https://glahr.org/)
-    - [Atlanta Legal Aid](https://atlantalegalaid.org/)
-    - [USCIS Work Authorization](https://www.uscis.gov/working-in-the-united-states)
-    """)
+# Job & Career Section
+with col1:
+    st.markdown(f'<p class="header">{content[lang]["job_title"]}</p>', unsafe_allow_html=True)
+    if st.button("🔹 Goodwill Job Training"):
+        st.markdown("[Goodwill Job Training](https://www.goodwillng.org/job-training)", unsafe_allow_html=True)
+    if st.button("🔹 Georgia WorkSource"):
+        st.markdown("[Georgia WorkSource](https://www.worksourceatlanta.org/)", unsafe_allow_html=True)
+    if st.button("🔹 Resume Templates (Canva)"):
+        st.markdown("[Resume Templates](https://www.canva.com/resumes/templates/)", unsafe_allow_html=True)
+    if st.button("🔹 Latino Jobs Network"):
+        st.markdown("[Latino Jobs Network](https://latinojobsnetwork.com/)", unsafe_allow_html=True)
 
-# Profile Page
-elif page == "Profile":
-    st.title("👤 User Profile")
-    name = st.text_input("Enter your name:")
-    email = st.text_input("Enter your email:")
-    if st.button("Save Profile"):
-        st.success(f"Profile saved! Welcome, {name}!")
+# Education Section
+with col2:
+    st.markdown(f'<p class="header">{content[lang]["edu_title"]}</p>', unsafe_allow_html=True)
+    if st.button("📚 Atlanta Technical College ESL"):
+        st.markdown("[Atlanta Technical College ESL](https://www.atlantatech.edu/)", unsafe_allow_html=True)
+    if st.button("📚 GED Classes in Atlanta"):
+        st.markdown("[GED Classes](https://www.ged.com/)", unsafe_allow_html=True)
+    if st.button("📚 Free English Classes in GA"):
+        st.markdown("[Free English Classes](https://www.esl.com/resources/georgia/)", unsafe_allow_html=True)
+
+# Legal & Immigration Help Section
+with col3:
+    st.markdown(f'<p class="header">{content[lang]["legal_title"]}</p>', unsafe_allow_html=True)
+    if st.button("⚖️ Georgia Latino Alliance for Human Rights"):
+        st.markdown("[GLAHR](https://glahr.org/)", unsafe_allow_html=True)
+    if st.button("⚖️ Atlanta Legal Aid"):
+        st.markdown("[Atlanta Legal Aid](https://atlantalegalaid.org/)", unsafe_allow_html=True)
+    if st.button("⚖️ USCIS Work Authorization"):
+        st.markdown("[USCIS Work Authorization](https://www.uscis.gov/working-in-the-united-states)", unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)  # Closing main container
